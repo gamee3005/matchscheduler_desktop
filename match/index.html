@@ -1,0 +1,63 @@
+	<html>
+		<head>
+			<title>Match Scheduler</title>
+			<meta charset="utf-8">
+			<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+			<meta name="viewport" content="width=device-width, initial-scale=1">
+			<title>New Schedule</title>
+			<script src="res/jquery-3.2.1.min.js" type="text/javascript"></script>
+			<script src="res/bootstrap.min.js" type="text/javascript"></script>
+			<link href="res/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+		</head>
+		<body style="background-color: skyblue">
+				
+				<div style="margin:3% 26% 0 26%;width: 48%;background-color: white;padding: 30px 4% 30px 4%;border: 0px;border-radius: 5px">
+					<div class="row">
+					<center>
+						<div style="margin:0% 20% 0 20%;">
+							<span style="font-family: verdana;font-size: 24px;width: 60%;font-weight: bold">
+								Match Scheduler
+							</span>
+						</div>
+					</center>
+					</div>    
+				   
+				</div>
+				<div style="margin:5% 26% 0 26%;width: 48%;background-color: white;padding: 30px 4% 30px 4%;border: 0px;border-radius: 5px">
+					<div class="row">
+						<div class="col-md-6 col-lg-6"><a href="new.php"><button class="btn btn-warning" style="width:160px;font-size: 18px;font-family: verdana;">New Schedule</button></a></div>
+						<div class="col-md-6 col-lg-6"><a href="edit.php"><button class="btn btn-success" style="width:160px;font-size: 18px;font-family: verdana;">Edit Schedule</button></a></div>
+					</div>    
+				   
+				</div>
+				<div style="margin:3% 26% 0 26%;width: 48%;background-color: white;padding: 10px 4% 10px 4%;border: 0px;border-radius: 5px">
+					<div>
+						<a href="" style="margin:0 0 0 10px;">
+							<span style="font-weight: bold;font-size: 18px">Step-1 Add Teams</span>
+						</a>
+						<span style="margin:0 0 0 10px;font-weight: bold;font-size: 18px">|</span>
+						<a href="" style="margin:0 0 0 10px"><span style="font-weight: bold;font-size: 18px">Step-2 Draw Schedule</span> </a>
+						<span style="margin:0 0 0 10px;font-weight: bold;font-size: 18px">|</span>
+						<a href="" style="margin:0 0 0 10px"><span style="font-weight: bold;font-size: 18px">Step-3 Print Pdf</span> </a>
+					</div>
+					<!-- <div><a href=""><span>Step-1</span><span>Add Teams</span> </a></div>
+					<div><a href=""><span>Step-2</span><span>Draw Schedule</span> </a></div>
+					<div><a href=""><span>Step-3</span><span>Print Pdf</span> </a></div> -->
+				</div>
+			
+		</body>
+		<script>
+			function calc()
+			{
+				var v_no_teams = document.getElementById("no_teams").value;
+				//v_no_teams = this.no_teams;
+				var ceil_pow_of_2 = Math.ceil(Math.log2(v_no_teams));
+				var v_no_byes = (Math.pow(2,ceil_pow_of_2)) - v_no_teams ;
+				var v_no_rounds = ceil_pow_of_2;
+
+				docutment.getElementById("t_no_byes").innerHTML = v_no_byes;
+				docutment.getElementById("t_no_rounds").innerHTML = v_no_rounds;
+			}
+		   
+		</script>
+	</html>
