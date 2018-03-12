@@ -47,46 +47,83 @@ if(isset($_POST['team_names']))
 	}
 
 	$indi_teams = explode("_",$team_names);
-
+	$total = $no_teams + $no_byes;
 
 	$arr_team_names = $indi_teams;
-	//console.log(arr_team_names);
-	$arr_bye_names = array();
 	
-
-	for($i=1;$i<=$no_byes;$i++)
-	{
-		/* arr_bye_names.push('Bye-'+i);
-		arr_team_names.push('Bye-'+i); */
-		$abc = 'Bye-'. $i ;
-		$xyz = 'Bye-'. $i ;
-		array_push($arr_bye_names,$abc);
-		array_push($arr_team_names,$xyz);
-	}
 	
-	//var final_teams = [];
-	$total = $no_teams+$no_byes;
-	
-	//console.log("total "+total);
 	$array_index = array();
-	$s=0;
-	$e=$total-1;
-	$j=0;
-	while($s<$total/2 || $e>$total/2)
+	for($i=0;$i<$total;$i++)
 	{
-		$array_index[$j]=$arr_team_names[$s];
-		$j+=1;
-		$s+=1;
-		$array_index[$j]=$arr_team_names[$e];
-		$j+=1;
-		$e-=1;
+		array_push($array_index,0);
 	}
-	
-	/* if (mysqli_query($con, $sql)) {
-		echo "New record created successfully";
-	} else {
-		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	} */
+
+	$top_start = 1;
+	$top_end = ($total/2)-1;
+	$bottom_start = ($total/2)+1;
+	$bottom_end = ($total-1);
+
+	$temp_bye = $no_byes;
+	$curr_pointer = 1;
+	$j = 1;
+	while($temp_bye > 0)
+	{
+		$bye_temp = 'Bye-' . $j;
+
+		//bottom end
+		if($curr_pointer == 1)
+		{
+			$array_index[$bottom_end] = $bye_temp;
+			
+			$bottom_end -= 2; 
+			$curr_pointer+=1;
+			$temp_bye -=1;
+		}
+		//top start
+		else if($curr_pointer == 2)
+		{
+			$array_index[$top_start] = $bye_temp;
+			
+			$top_start += 2; 
+			$curr_pointer+=1;
+			$temp_bye -=1;
+		}
+		//bottom start
+		else if($curr_pointer == 3)
+		{
+			$array_index[$bottom_start] = $bye_temp;
+			
+			$bottom_start += 2; 
+			$curr_pointer+=1;
+			$temp_bye -=1;
+		}
+		//top end
+		else if($curr_pointer == 4)
+		{
+			$array_index[$top_end] = $bye_temp;
+			
+			$top_end -= 2; 
+			$curr_pointer = 1;
+			$temp_bye -=1;
+		}
+		$j += 1;
+		
+	}
+
+
+	$k=0;
+	for($i=0;$i<$total;$i++)
+	{
+		if($array_index[$i] == "0")
+		{
+			$array_index[$i] = $indi_teams[$k];
+			$k++;
+		}
+	}
+	// final array is set
+
+	/* echo $total;
+	echo json_encode($array_index);  */
 }
 
 
@@ -198,29 +235,19 @@ if(isset($_POST['team_names']))
 				<ul class="round round-2">
 					<li class="spacer">&nbsp;</li>
 					
-					<!-- <li class="game game-top winner">Lousville <span>82</span></li>
-					<li class="game game-spacer">&nbsp;</li>
-					<li class="game game-bottom ">Colo St <span>56</span></li>
+					<?php
+					for($i = 0; $i < $total; $i++)
+					{
+						print '
+						<li class="game game-top winner">'.$array_index[$i].'<span>58</span></li>
+						<li class="game game-spacer">&nbsp;</li>
+						<li class="game game-bottom ">'.$array_index[$i+1].'<span>48</span></li>
 
-					<li class="spacer">&nbsp;</li>
+						<li class="spacer">&nbsp;</li>
+						';
+						$i++;
+					}
 					
-					<li class="game game-top winner">Oregon <span>74</span></li>
-					<li class="game game-spacer">&nbsp;</li>
-					<li class="game game-bottom ">Saint Louis <span>57</span></li>
-
-					<li class="spacer">&nbsp;</li>
-					
-					<li class="game game-top ">Memphis <span>48</span></li>
-					<li class="game game-spacer">&nbsp;</li>
-					<li class="game game-bottom winner">Mich St <span>70</span></li>
-
-					<li class="spacer">&nbsp;</li>
-					
-					<li class="game game-top ">Creighton <span>50</span></li>
-					<li class="game game-spacer">&nbsp;</li>
-					<li class="game game-bottom winner">Duke <span>66</span></li>
-
-					<li class="spacer">&nbsp;</li> -->
 				</ul>
 				<ul class="round round-3">
 					<li class="spacer">&nbsp;</li>
